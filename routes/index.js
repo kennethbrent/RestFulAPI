@@ -56,7 +56,7 @@ router.post('/users', async (req,res,next) => {
             }
         }
         const user = await User.create(req.body);
-        res.writeHead(201, {'Location': '/'}).end()
+        res.status(201).location('/').end()
     } catch(err){
         err.status=400;
         next(err)
@@ -123,7 +123,7 @@ router.post('/courses', authenticateUser, async (req,res,next)=>{
             materialsNeeded: req.body.materialsNeeded,
             userId: req.user.id
         })
-        res.writeHead(201, {'Location': `/courses/${course.id}`}).end()
+        res.status(201).location(`/courses/${course.id}`).end()
     } catch(err){
         err.status=400
         next(err)
