@@ -4,6 +4,7 @@ module.exports = (sequelize) => {
     User.init({
         firstName:{
             type: Sequelize.STRING,
+            allowNull: false,
             validate:{
                 notEmpty: {
                     msg: "First Name is required"
@@ -12,6 +13,7 @@ module.exports = (sequelize) => {
         },
         lastName: {
             type: Sequelize.STRING,
+            allowNull: false,
             validate: {
                 notEmpty: {
                     msg: 'Last name is required'
@@ -20,6 +22,7 @@ module.exports = (sequelize) => {
         },
         emailAddress: {
             type: Sequelize.STRING,
+            allowNull: false,
             unique: {
                 msg: 'This email address is already associated with an account'
             },

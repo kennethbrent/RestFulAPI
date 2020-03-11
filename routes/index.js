@@ -108,7 +108,18 @@ router.get('/courses/:id', async (req, res)=> {
                 }
             ]
         });
-        res.status(200).json(course)
+        //utilize destrucuring to remove createdAt and updatedAt from course object
+        const {createdAt, updatedAt, ...filteredCourse} = course[0].dataValues;
+        ///set associated user values so password, createdAt and updated at aren't returned
+        filteredCourse.User = {
+            id: filteredCourse.User.id,
+            firstName: filteredCourse.User.firstName,
+            lastName: filteredCourse.User.lastName,
+            emailAddress: filteredCourse.User.emailAddress
+        }
+        
+
+        res.status(200).json(filteredCourse)
     } catch(err){
         res.status(500).send({err:err.message})
     }
@@ -138,8 +149,8 @@ router.put('/courses/:id', authenticateUser, async (req, res, next)=> {
                 await course.update(req.body)
                 res.status(204).send()  
             } else {
-                res.status(400).send()
-            } 
+                    res.status(400).json({Error: "Oh no! There was an error with your update. You can only update title, description, estimated time, or the materials needed. Please try again"})
+                }
         } else{
             res.status(403).send('Not authorized');
         }
